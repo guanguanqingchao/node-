@@ -27,5 +27,31 @@ NodeJS最精华的异步IO模型在fs模块里有着充分的体现，例如上�
     });
 ### path 文件路径
 
+    __dirname /Users/didi/PersonalTest/node_modules
+    __dirname /Users/didi/PersonalTest/CMS_SYS/node_modules
+    // Users/didi/PersonalTest/CMS_SYS
+    console.log('__dirname', path.join(__dirname, '../node_modules')) 
+    console.log('__dirname', path.join(__dirname, './node_modules'))
+  
+  深度优先遍历获取目录路径
+
+    function travel(dir, callback) {
+        fs.readdirSync(dir).forEach(function (file) {
+            var pathname = path.join(dir, file);
+
+            if (fs.statSync(pathname).isDirectory()) {
+                travel(pathname, callback);
+            } else {
+                callback(pathname);
+            }
+        });
+    }
+
+    console.log(fs.readdirSync('./home/user')) //获取user目录下的文件
+
+    travel('./home/user', function (pathname) {
+        console.log('pathname', pathname)
+    })
+
 
 
